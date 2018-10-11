@@ -21,10 +21,10 @@ function insertionSort (items) {
     let startTime = new Date();
     let len  = items.length, value, i, j;
     for(i = 1; i < len; i++) {
-        value = items[i]
-        j = i - 1
+        value = items[i];
+        j = i - 1;
         while (j >= 0 && items[j] > value) {
-            items[j+1] = items[j]
+            items[j+1] = items[j];
             j--
         }
         items[j+1] = value
@@ -83,7 +83,7 @@ function shiftElementDownHeap(heap, i, max) {
             i_big = c1;
         if (c2 < max && heap[c2] > heap[i_big])
             i_big = c2;
-        if (i_big == i) return;
+        if (i_big === i) return;
         swap(heap,i, i_big);
         i = i_big;
     }
@@ -107,6 +107,7 @@ function partition(p, xs) {
     }, [[], []]);
 }
 function quickSort(items) {
+    let startTime = new Date();
     if (items.length) {
         let h = items[0],
             t = items.slice(1),
@@ -115,13 +116,16 @@ function quickSort(items) {
             }, t),
             less = lessMore[0],
             more = lessMore[1];
-        return [].concat.apply(
+        [].concat.apply(
             [], [quickSort(less), h, quickSort(more)]
         );
-    } else return [];
+    }
+    let endTime = new Date();
+    return endTime - startTime;
 }
 //counting sort
 function countingSort(items, min, max) {
+    let startTime = new Date();
     let i, z = 0, count = [];
     for (i = min; i <= max; i++) {
         count[i] = 0;
@@ -134,14 +138,21 @@ function countingSort(items, min, max) {
             items[z++] = i;
         }
     }
-    return items;
+    let endTime = new Date();
+    return endTime - startTime;
 }
 //radix sort
 function radixSort(items) {
+    let startTime = new Date();
 
+    let endTime = new Date();
+    return endTime - startTime;
 }
 //bucket sort
 function bucketSort(items) {
+    let startTime = new Date();
 
+    let endTime = new Date();
+    return endTime - startTime;
 }
 
