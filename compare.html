@@ -150,19 +150,16 @@
                 let countingChecked = document.getElementById("counting").checked;
                 let radixChecked = document.getElementById("radix").checked;
                 let bucketChecked = document.getElementById("bucket").checked;
-
                 let labels = [];
                 for (let j = 0; j<inputNum; j++){
                     labels.push((j * period) + startInput);
                 }
-
                 let arrayOfArryas = [];
                 let size = inputNum;
                 for (let i = 0; i<inputNum; i++){
                     arrayOfArryas[i] = generateArray(size, fromNumber, toNumber);
                     size += period;
                 }
-
                 function getRandomColor() {
                     let letters = '0123456789ABCDEF';
                     let color = "#";
@@ -171,7 +168,6 @@
                     }
                     return color;
                 }
-
                 function bubbleDataSet() {
                     let dataSet = [];
                     for (let i = 0; i<inputNum; i++){
@@ -228,13 +224,11 @@
                     }
                     return dataSet;
                 }
-
                 let myLineChart;
                 if (typeof myLineChart !== "undefined") {
                     myLineChart.destroy();
                     myLineChart.chart.destroy();
                 }
-
                 myLineChart = new Chart(ctx, {
                     type: 'line',
                     data: {
@@ -248,8 +242,6 @@
                         }
                     }
                 });
-
-
                 if (bubbleChecked){
                     myLineChart.data.datasets.push({
                         label: "Bubble",
