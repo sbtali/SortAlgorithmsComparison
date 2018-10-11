@@ -232,6 +232,7 @@
                 let myLineChart;
                 if (typeof myLineChart !== "undefined") {
                     myLineChart.destroy();
+                    myLineChart.chart.destroy();
                 }
 
                 myLineChart = new Chart(ctx, {
