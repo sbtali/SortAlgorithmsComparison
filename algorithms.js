@@ -1,7 +1,7 @@
 //bubble sort
 function bubbleSort(items) {
     let swapped;
-    let startTime = new Date();
+    let startTime = new Date().getTime();
     do {
         swapped = false;
         for (let i=0; i < items.length-1; i++) {
@@ -13,12 +13,12 @@ function bubbleSort(items) {
             }
         }
     } while (swapped);
-    let endTime = new Date();
+    let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //insertion sort
 function insertionSort (items) {
-    let startTime = new Date();
+    let startTime = new Date().getTime();
     let len  = items.length, value, i, j;
     for(i = 1; i < len; i++) {
         value = items[i];
@@ -29,7 +29,7 @@ function insertionSort (items) {
         }
         items[j+1] = value
     }
-    let endTime = new Date();
+    let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //merge sort
@@ -46,7 +46,7 @@ function merge(left, right, arr) {
     }
 }
 function mergeSort(items) {
-    let startTime = new Date();
+    let startTime = new Date().getTime();
     let len = items.length;
     if (len === 1) { return; }
     let mid = Math.floor(len / 2),
@@ -55,7 +55,7 @@ function mergeSort(items) {
     mergeSort(left);
     mergeSort(right);
     merge(left, right, items);
-    let endTime = new Date();
+    let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //heap sort
@@ -89,7 +89,7 @@ function shiftElementDownHeap(heap, i, max) {
     }
 }
 function heapSort(items) {
-    let startTime = new Date();
+    let startTime = new Date().getTime();
     putArrayInHeapOrder(items);
     let end = items.length - 1;
     while(end > 0) {
@@ -97,7 +97,7 @@ function heapSort(items) {
         shiftElementDownHeap(items, 0, end);
         end -= 1
     }
-    let endTime = new Date();
+    let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //quick sort
@@ -107,7 +107,7 @@ function partition(p, xs) {
     }, [[], []]);
 }
 function quickSort(items) {
-    let startTime = new Date();
+    let startTime = new Date().getTime();
     if (items.length) {
         let h = items[0],
             t = items.slice(1),
@@ -120,12 +120,12 @@ function quickSort(items) {
             [], [quickSort(less), h, quickSort(more)]
         );
     }
-    let endTime = new Date();
+    let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //counting sort
 function countingSort(items, min, max) {
-    let startTime = new Date();
+    let startTime = new Date().getTime();
     let i, z = 0, count = [];
     for (i = min; i <= max; i++) {
         count[i] = 0;
@@ -138,21 +138,21 @@ function countingSort(items, min, max) {
             items[z++] = i;
         }
     }
-    let endTime = new Date();
+    let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //radix sort
 function radixSort(items) {
-    let startTime = new Date();
+    let startTime = new Date().getTime();
 
-    let endTime = new Date();
+    let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //bucket sort
 function bucketSort(items) {
-    let startTime = new Date();
+    let startTime = new Date().getTime();
 
-    let endTime = new Date();
+    let endTime = new Date().getTime();
     return endTime - startTime;
 }
 
