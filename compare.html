@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-rtl.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/Chart.min.js"></script>
+    <script src="algorithms.js"></script>
+    <title>مقایسه الگوریتمهای مرتب سازی</title>
+</head>
+<body>
+
+<nav class="navbar navbar-light bg-info">
+    <span class="navbar-brand mb-0 h1">مقایسه زمان اجرای الگوریتم های مرتب سازی(پروژه درس ساختمان داده و الگوریتمها، علیرضا ثابت)</span>
+</nav>
+
+<div class="row">
+    <div class="col-sm-3">
+        <div class="container theme-showcase small" role="main">
+            <form class="form-horizontal" role="form" >
+                <div class="form-group row">
+                    <label for="fromNumber" class="col-sm-4 control-label">شروع بازه:</label>
+                    <div class="col-sm-8">
+                        <input type="number" class="form-control" id="fromNumber" placeholder="کران پایین بازه">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="toNumber" class="col-sm-4 control-label">پایان بازه:</label>
+                    <div class="col-sm-8">
+                        <input type="number" class="form-control" id="toNumber" placeholder="کران بالای بازه">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputNum" class="col-sm-4 control-label">تعداد ورودی ها:</label>
+                    <div class="col-sm-8">
+                        <select type="number" class="form-control" id="inputNum">
+                            <option>5</option>
+                            <option>10</option>
+                            <option>20</option>
+                            <option>50</option>
+                            <option>100</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="startInput" class="col-sm-4 control-label">اولین اندازه ورودی:</label>
+                    <div class="col-sm-8">
+                        <input type="number" class="form-control" id="startInput" placeholder="اولین اندازه داده ها">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="period" class="col-sm-4 control-label">تناوب اندازه ورودی:</label>
+                    <div class="col-sm-8">
+                        <input type="number" class="form-control" id="period" placeholder="تناوب اندازه داده ها">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 control-label">کدام الگوریتم ها؟</label>
+
+                    <div class="col-sm-8">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="bubble">
+                                Bubble sort
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="insertion">
+                                Insertion sort
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="merge">
+                                Merge sort
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="heap">
+                                Heap sort
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="quick">
+                                Quick sort
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="counting">
+                                Counting sort
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="radix">
+                                Radix sort
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="bucket">
+                                Bucket sort
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="col-xs-8">
+                <button class="btn btn-primary" onclick="drawGraph()">رسم نمودار</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-9">
+        <canvas id="myChart"></canvas>
+        <script>
+            function fitToContainer(canvas){
+                canvas.style.width ='100%';
+                canvas.style.height='100%';
+                canvas.width  = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            }
+            let canvas = document.querySelector('canvas');
+            fitToContainer(canvas);
+            let ctx = document.getElementById("myChart");
+            function generateArray(arraySize, fromNumber, toNumber) {
+                let array = [];
+                for(let i = 0; i < arraySize; i++) {
+                    array.push(Math.floor(Math.random()*(toNumber-fromNumber+1) + fromNumber));
+                }
+                return array;
+            }
+            function drawGraph() {
+                let fromNumber = parseInt(document.getElementById("fromNumber").value, 10);
+                let toNumber = parseInt(document.getElementById("toNumber").value,10);
+                let inputNum = parseInt(document.getElementById("inputNum").value,10);
+                let startInput = parseInt(document.getElementById("startInput").value,10);
+                let period = parseInt(document.getElementById("period").value,10);
+                let bubbleChecked = document.getElementById("bubble").checked;
+                let insertionChecked = document.getElementById("insertion").checked;
+                let mergeChecked = document.getElementById("merge").checked;
+                let heapChecked = document.getElementById("heap").checked;
+                let quickChecked = document.getElementById("quick").checked;
+                let countingChecked = document.getElementById("counting").checked;
+                let radixChecked = document.getElementById("radix").checked;
+                let bucketChecked = document.getElementById("bucket").checked;
+                let arrayOfArryas = [];
+                let size = inputNum;
+                for (let i = 0; i<inputNum; i++){
+                    arrayOfArryas[i] = generateArray(size, fromNumber, toNumber);
+                    size += period;
+                }
+                let labels = [];
+                for (let j = 0; j<inputNum; j++){
+                    labels.push((j * period) + startInput);
+                }
+                function getRandomColor() {
+                    let letters = '0123456789ABCDEF';
+                    let color = "#";
+                    for (let i = 0; i < 6; i++) {
+                        color += letters[Math.floor(Math.random() * 16)];
+                    }
+                    return color;
+                }
+
+                function bubbleDataSet() {
+                    let dataSet = [];
+                    for (let i = 0; i<inputNum; i++){
+                        dataSet.push(bubbleSort(arrayOfArryas[i]));
+                    }
+                    return dataSet;
+                }
+                function insertionDataSet() {
+                    let dataSet = [];
+                    for (let i = 0; i<inputNum; i++){
+                        dataSet.push(insertionSort(arrayOfArryas[i]));
+                    }
+                    return dataSet;
+                }
+                function mergeDataSet() {
+                    let dataSet = [];
+                    for (let i = 0; i<inputNum; i++){
+                        dataSet.push(mergeSort(arrayOfArryas[i]));
+                    }
+                    return dataSet;
+                }
+                function heapDataSet() {
+                    let dataSet = [];
+                    for (let i = 0; i<inputNum; i++){
+                        dataSet.push(heapSort(arrayOfArryas[i]));
+                    }
+                    return dataSet;
+                }
+                function quickDataSet() {
+                    let dataSet = [];
+                    for (let i = 0; i<inputNum; i++){
+                        dataSet.push(quickSort(arrayOfArryas[i]));
+                    }
+                    return dataSet;
+                }
+                function countingDataSet() {
+                    let dataSet = [];
+                    for (let i = 0; i<inputNum; i++){
+                        dataSet.push(countingSort(arrayOfArryas[i]));
+                    }
+                    return dataSet;
+                }
+                function radixDataSet() {
+                    let dataSet = [];
+                    for (let i = 0; i<inputNum; i++){
+                        dataSet.push(radixSort(arrayOfArryas[i]));
+                    }
+                    return dataSet;
+                }
+                function bucketDataSet() {
+                    let dataSet = [];
+                    for (let i = 0; i<inputNum; i++){
+                        dataSet.push(bucketSort(arrayOfArryas[i]));
+                    }
+                    return dataSet;
+                }
+
+                let myLineChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: []
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'زمان اجرای الگوریتمهای مورد نظر بر حسب اندازه ورودی(تعداد اعضای آرایه - زمان بر حسب میلی ثانیه)'
+                        }
+                    }
+                });
+                if (bubbleChecked){
+                    myLineChart.data.datasets.push({
+                        label: "Bubble",
+                        data: bubbleDataSet(),
+                        borderColor: getRandomColor(),
+                        fill:false
+                    });
+                }
+                if (insertionChecked){
+                    myLineChart.data.datasets.push({
+                        label: "Insertion",
+                        data: insertionDataSet(),
+                        borderColor: getRandomColor(),
+                        fill:false
+                    });
+                }
+                if (mergeChecked){
+                    myLineChart.data.datasets.push({
+                        label: "Merge",
+                        data: mergeDataSet(),
+                        borderColor: getRandomColor(),
+                        fill:false
+                    });
+                }
+                if (heapChecked){
+                    myLineChart.data.datasets.push({
+                        label: "Heap",
+                        data: heapDataSet(),
+                        borderColor: getRandomColor(),
+                        fill:false
+                    });
+                }
+                if (quickChecked){
+                    myLineChart.data.datasets.push({
+                        label: "Quick",
+                        data: quickDataSet(),
+                        borderColor: getRandomColor(),
+                        fill:false
+                    });
+                }
+                if (countingChecked){
+                    myLineChart.data.datasets.push({
+                        label: "Counting",
+                        data: countingDataSet(),
+                        borderColor: getRandomColor(),
+                        fill:false
+                    });
+                }
+                if (radixChecked){
+                    myLineChart.data.datasets.push({
+                        label: "Radix",
+                        data: radixDataSet(),
+                        borderColor: getRandomColor(),
+                        fill:false
+                    });
+                }
+                if (bucketChecked){
+                    myLineChart.data.datasets.push({
+                        label: "Bucket",
+                        data: bucketDataSet(),
+                        borderColor: getRandomColor(),
+                        fill:false
+                    });
+                }
+                myLineChart.update();
+            }
+        </script>
+
+    </div>
+
+</div>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>

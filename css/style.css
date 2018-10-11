@@ -1,0 +1,8 @@
+@font-face {
+    font-family: IRANSansWeb;
+    src: url(../fonts/IRANSansWeb.ttf);
+}
+html,
+body {
+    font-family: IRANSansWeb, sans-serif;
+}
