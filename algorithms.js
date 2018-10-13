@@ -1,143 +1,87 @@
 //bubble sort
 function bubbleSort(items) {
-    let swapped;
     let startTime = new Date().getTime();
-    do {
-        swapped = false;
-        for (let i=0; i < items.length-1; i++) {
-            if (items[i] > items[i+1]) {
-                var temp = items[i];
-                items[i] = items[i+1];
-                items[i+1] = temp;
-                swapped = true;
+    for (let i=0; i < items.length-1; i++) {
+        for (let j = 0; j < items.length-i-1; j++)
+            if (items[j] > items[j+1]) {
+                let temp = items[j];
+                items[j] = items[j+1];
+                items[j+1] = temp;
             }
-        }
-    } while (swapped);
+    }
     let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //insertion sort
 function insertionSort (items) {
     let startTime = new Date().getTime();
-    let len  = items.length, value, i, j;
-    for(i = 1; i < len; i++) {
-        value = items[i];
-        j = i - 1;
-        while (j >= 0 && items[j] > value) {
+    for(let i = 1; i < items.length; ++i) {
+        let key = items[i];
+        let j = i-1;
+        while (j>=0 && items[j] > key){
             items[j+1] = items[j];
-            j--
+            j = j-1;
         }
-        items[j+1] = value
+        items[j+1] = key;
     }
     let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //merge sort
-function merge(left, right, arr) {
-    let a = 0;
-    while (left.length && right.length) {
-        arr[a++] = (right[0] < left[0]) ? right.shift() : left.shift();
+function merge(items, p, q, r) {
+    let m = q - p + 1;
+    let n = r - q;
+    let left = []; //size:m+1
+    let right = []; //size:n+1
+    for (let i = 0; i < m ; i++) {
+        left[i] = items[p+i];
     }
-    while (left.length) {
-        arr[a++] = left.shift();
+    for (let j = 0; j < n ; j++) {
+        right[j] = items[q+1+j];
     }
-    while (right.length) {
-        arr[a++] = right.shift();
+    left[m]  = Number.MAX_SAFE_INTEGER;
+    right[n] = Number.MAX_SAFE_INTEGER;
+    let x = 0;
+    let y = 0;
+    for (let k = p; k <= r; k++){
+        if(left[x] <= right[y]) {
+            items[k] = left[x];
+            x++;
+        } else {
+            items[k] = right[y];
+            y++;
+        }
     }
 }
-function mergeSort(items) {
+function mergeSort(items, p, r) {
     let startTime = new Date().getTime();
-    let len = items.length;
-    if (len === 1) { return; }
-    let mid = Math.floor(len / 2),
-        left = items.slice(0, mid),
-        right = items.slice(mid);
-    mergeSort(left);
-    mergeSort(right);
-    merge(left, right, items);
+    if (p<r){
+        let q = Math.floor((p+r)/2);
+        mergeSort(items, p, q);
+        mergeSort(items, q+1, r);
+        merge(items, p, q, r);
+    }
     let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //heap sort
-function swap(data, i, j) {
-    let tmp = data[i];
-    data[i] = data[j];
-    data[j] = tmp;
-}
-function putArrayInHeapOrder(arr) {
-    let i;
-    i = arr.length / 2 - 1;
-    i = Math.floor(i);
-    while (i >= 0) {
-        shiftElementDownHeap(arr, i, arr.length);
-        i -= 1;
-    }
-}
-function shiftElementDownHeap(heap, i, max) {
-    let i_big, c1, c2;
-    while(i < max) {
-        i_big = i;
-        c1 = 2*i + 1;
-        c2 = c1 + 1;
-        if (c1 < max && heap[c1] > heap[i_big])
-            i_big = c1;
-        if (c2 < max && heap[c2] > heap[i_big])
-            i_big = c2;
-        if (i_big === i) return;
-        swap(heap,i, i_big);
-        i = i_big;
-    }
-}
 function heapSort(items) {
     let startTime = new Date().getTime();
-    putArrayInHeapOrder(items);
-    let end = items.length - 1;
-    while(end > 0) {
-        swap(items, 0, end);
-        shiftElementDownHeap(items, 0, end);
-        end -= 1
-    }
+
     let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //quick sort
-function partition(p, xs) {
-    return xs.reduce(function (a, x) {
-        return (a[p(x) ? 0 : 1].push(x), a);
-    }, [[], []]);
-}
 function quickSort(items) {
     let startTime = new Date().getTime();
-    if (items.length) {
-        let h = items[0],
-            t = items.slice(1),
-            lessMore = partition(function (x) {
-                return x <= h;
-            }, t),
-            less = lessMore[0],
-            more = lessMore[1];
-        [].concat.apply(
-            [], [quickSort(less), h, quickSort(more)]
-        );
-    }
+
     let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //counting sort
-function countingSort(items, min, max) {
+function countingSort(items) {
     let startTime = new Date().getTime();
-    let i, z = 0, count = [];
-    for (i = min; i <= max; i++) {
-        count[i] = 0;
-    }
-    for (i=0; i < items.length; i++) {
-        count[items[i]]++;
-    }
-    for (i = min; i <= max; i++) {
-        while (count[i]-- > 0) {
-            items[z++] = i;
-        }
-    }
+
     let endTime = new Date().getTime();
     return endTime - startTime;
 }
