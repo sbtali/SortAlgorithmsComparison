@@ -200,7 +200,7 @@
                 function quickDataSet() {
                     let dataSet = [];
                     for (let i = 0; i<inputNum; i++){
-                        dataSet.push(quickSort(arrayOfArryas[i]));
+                        dataSet.push(randomizedQuickSort(arrayOfArryas[i], 0, arrayOfArryas[i].length - 1));
                     }
                     return dataSet;
                 }

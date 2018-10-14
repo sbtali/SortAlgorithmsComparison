@@ -1,43 +1,43 @@
 //bubble sort
-function bubbleSort(items) {
+function bubbleSort(Array) {
     let startTime = new Date().getTime();
-    for (let i=0; i < items.length-1; i++) {
-        for (let j = 0; j < items.length-i-1; j++)
-            if (items[j] > items[j+1]) {
-                let temp = items[j];
-                items[j] = items[j+1];
-                items[j+1] = temp;
+    for (let i=0; i < Array.length-1; i++) {
+        for (let j = 0; j < Array.length-i-1; j++)
+            if (Array[j] > Array[j+1]) {
+                let temp = Array[j];
+                Array[j] = Array[j+1];
+                Array[j+1] = temp;
             }
     }
     let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //insertion sort
-function insertionSort (items) {
+function insertionSort (Array) {
     let startTime = new Date().getTime();
-    for(let i = 1; i < items.length; ++i) {
-        let key = items[i];
+    for(let i = 1; i < Array.length; ++i) {
+        let key = Array[i];
         let j = i-1;
-        while (j>=0 && items[j] > key){
-            items[j+1] = items[j];
+        while (j>=0 && Array[j] > key){
+            Array[j+1] = Array[j];
             j = j-1;
         }
-        items[j+1] = key;
+        Array[j+1] = key;
     }
     let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //merge sort
-function merge(items, p, q, r) {
+function merge(Array, p, q, r) {
     let m = q - p + 1;
     let n = r - q;
     let left = []; //size:m+1
     let right = []; //size:n+1
     for (let i = 0; i < m ; i++) {
-        left[i] = items[p+i];
+        left[i] = Array[p+i];
     }
     for (let j = 0; j < n ; j++) {
-        right[j] = items[q+1+j];
+        right[j] = Array[q+1+j];
     }
     left[m]  = Number.MAX_SAFE_INTEGER;
     right[n] = Number.MAX_SAFE_INTEGER;
@@ -45,55 +45,81 @@ function merge(items, p, q, r) {
     let y = 0;
     for (let k = p; k <= r; k++){
         if(left[x] <= right[y]) {
-            items[k] = left[x];
+            Array[k] = left[x];
             x++;
         } else {
-            items[k] = right[y];
+            Array[k] = right[y];
             y++;
         }
     }
 }
-function mergeSort(items, p, r) {
+function mergeSort(Array, p, r) {
     let startTime = new Date().getTime();
     if (p<r){
         let q = Math.floor((p+r)/2);
-        mergeSort(items, p, q);
-        mergeSort(items, q+1, r);
-        merge(items, p, q, r);
+        mergeSort(Array, p, q);
+        mergeSort(Array, q+1, r);
+        merge(Array, p, q, r);
     }
     let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //heap sort
-function heapSort(items) {
+function heapSort(Array) {
     let startTime = new Date().getTime();
 
     let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //quick sort
-function quickSort(items) {
+function swap(arr, i, j) {
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+function partition(Array, p, r) {
+    let pivot = Array[r];
+    let i = p;
+    for (let j = p; j<=(r-1); j++){
+        if (Array[j] <= pivot){
+            swap(Array,i,j);
+            i++;
+        }
+    }
+    swap(Array,i,r);
+    return i;
+}
+function randomizedPartition(Array, p, r) {
+    let k = Math.floor(Math.random() * (p - r + 1)) + r;
+    swap(Array, r, k);
+    return partition(Array, p, r);
+}
+function randomizedQuickSort(Array, p, r) {
     let startTime = new Date().getTime();
-
+    if(p < r) {
+        let q = randomizedPartition(Array, p, r);
+        randomizedQuickSort(Array, p, q-1);
+        randomizedQuickSort(Array, q+1, r);
+    }
     let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //counting sort
-function countingSort(items) {
+function countingSort(Array) {
     let startTime = new Date().getTime();
 
     let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //radix sort
-function radixSort(items) {
+function radixSort(Array) {
     let startTime = new Date().getTime();
 
     let endTime = new Date().getTime();
     return endTime - startTime;
 }
 //bucket sort
-function bucketSort(items) {
+function bucketSort(Array) {
     let startTime = new Date().getTime();
 
     let endTime = new Date().getTime();
