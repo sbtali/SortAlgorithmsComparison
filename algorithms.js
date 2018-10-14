@@ -110,11 +110,6 @@ function heapSort(Array) {
     return endTime - startTime;
 }
 //quick sort
-function swap(arr, i, j) {
-    let temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
-}
 function partition(Array, p, r) {
     let pivot = Array[r];
     let i = p;
