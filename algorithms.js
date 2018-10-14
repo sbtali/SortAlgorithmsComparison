@@ -65,9 +65,47 @@ function mergeSort(Array, p, r) {
     return endTime - startTime;
 }
 //heap sort
+function leftIdx(i) {
+    return 2 * i + 1;
+}
+function rightIdx(i) {
+    return 2 * i + 2;
+}
+function swap(arr, i, j) {
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+function maxHeapify(Array, i, heapSize) {
+    let L = leftIdx(i);
+    let R = rightIdx(i);
+    let largest = i;
+    if (L <= heapSize && Array[L] > Array[i]) {
+        largest = L;
+    }
+    if (R <= heapSize && Array[R] > Array[largest]) {
+        largest = R;
+    }
+    if (largest !== i) {
+        swap(Array, i, largest);
+        maxHeapify(Array, largest, heapSize);
+    }
+}
+function buildMaxHeap(Array) {
+    let heapSize = Array.length;
+    for (let i = heapSize / 2; i >= 0; i--) {
+        maxHeapify(Array, i, heapSize);
+    }
+}
 function heapSort(Array) {
     let startTime = new Date().getTime();
-
+    let heapSize = Array.length - 1;
+    buildMaxHeap(Array);
+    for (let i = Array.length - 1; i > 0; i--) {
+        swap(Array, 0, i);
+        heapSize--;
+        maxHeapify(Array, 0, heapSize);
+    }
     let endTime = new Date().getTime();
     return endTime - startTime;
 }
